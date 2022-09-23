@@ -2,7 +2,15 @@ import express from 'express';
 
 const app = express();
 
-app.get('/', (request, response) => {
+app.get('/games', (request, response) => {
+  return response.json([]);
+})
+
+app.post('/ads', (request, response) => {
+  return response.json([]);
+})
+
+app.get('/ads', (request, response) => {
   return response.json({ message: 'Ok 22!'})
 });
 
