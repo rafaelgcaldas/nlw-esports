@@ -10,7 +10,11 @@ app.post('/ads', (request, response) => {
   return response.json([]);
 })
 
-app.get('/ads', (request, response) => {
+app.get('/gsmes/:id/ads', (request, response) => {
+  return response.json({ message: 'Ok 22!'})
+});
+
+app.get('/gsmes/:id/discord', (request, response) => {
   return response.json({ message: 'Ok 22!'})
 });
 
