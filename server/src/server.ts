@@ -1,7 +1,11 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 
+import { convertHoursStringToMinutes } from './utils/convert-hour-string-to-minutes';
+
 const app = express();
+app.use(express.json());
+
 const prisma = new PrismaClient();
 
 app.get('/games', async (request, response) => {
@@ -18,8 +22,24 @@ app.get('/games', async (request, response) => {
   return response.json(games);
 })
 
-app.post('/ads', (request, response) => {
-  return response.json([]);
+app.post('/game/:id/ads', async (request, response) => {
+  const gameId = request.params.id;
+  const body = request.body;
+
+  const ad = await prisma.ad.create({
+    data: {
+      gameId,
+      name: body.name,
+      yearsPlaying: body.yearsPlaying,
+      discord: body.discord,
+      weekDays: body.weekDays.join(','),
+      hourStart: convertHoursStringToMinutes(body.hourStart),
+      hourEnd: convertHoursStringToMinutes(body.hourEnd),
+      useVoiceChannel: body.useVoiceChannel
+    }
+  })
+
+  return response.json(ad);
 })
 
 app.get('/games/:id/ads', async (request, response) => {
