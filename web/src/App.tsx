@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { GameBanner } from './components/GameBanner';
 import { CreateAdBanner } from './components/CreateAdBanner';
@@ -7,8 +7,27 @@ import './styles/main.css';
 
 import logo from './assets/logo-nlw-esports.png';
 
+interface Game {
+  id: string;
+  title: string;
+  bannerUrl: string;
+  _count: {
+    ads: number
+  }
+}
+
 function App() {
-  const [] = useState(false);
+  const [games, setGames] = useState<Game[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3333/games')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setGames(data)
+      })
+  }, [])
+
   return (
     <div className="max-w-[1344px] mx-auto flex flex-col items-center my-20">
       <img src={logo} alt="Logo" />
@@ -17,12 +36,15 @@ function App() {
         Seu <span className="text-transparent bg-nlw-gradient bg-clip-text">duo</span> está aqui.
       </h1>
 
-      <div className="grid grid-cols-6 gap-6 mt-16">
-        <GameBanner
-          bannerUrl="/game1.png"
-          title="Legue of Legends"
-          adsCount={5}
-        />
+      <div className="grid grid-cols-6 gap-6 mt-16 mx-2">
+        {games.map(game => (
+          <GameBanner
+          key={game.id}
+            bannerUrl={game.bannerUrl}
+            title={game.title}
+            adsCount={game._count.ads}
+          />
+        ))}
       </div>
 
       <CreateAdBanner />
