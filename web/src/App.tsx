@@ -1,11 +1,14 @@
-import { MagnifyingGlassPlus } from 'phosphor-react';
+import { useState } from 'react';
+
+import { GameBanner } from './components/GameBanner';
+import { CreateAdBanner } from './components/CreateAdBanner';
 
 import './styles/main.css';
 
 import logo from './assets/logo-nlw-esports.png';
-import { GameBanner } from './components/GameBanner';
 
 function App() {
+  const [] = useState(false);
   return (
     <div className="max-w-[1344px] mx-auto flex flex-col items-center my-20">
       <img src={logo} alt="Logo" />
@@ -22,7 +25,7 @@ function App() {
         />
       </div>
 
-      
+      <CreateAdBanner />
     </div>
   )
 }
